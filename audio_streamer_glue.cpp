@@ -229,6 +229,10 @@ public:
             } else {
                 switch_log_printf(SWITCH_CHANNEL_SESSION_LOG(session), SWITCH_LOG_ERROR, "(%s) processMessage - no data in streamAudio\n", m_sessionId.c_str());
             }
+        }else{
+        const char *jsFile = cJSON_GetObjectCstr(json, "file");
+        switch_ivr_play_file(session, nullptr, jsFile, nullptr);
+        switch_log_printf(SWITCH_CHANNEL_SESSION_LOG(session), SWITCH_LOG_DEBUG, ">>>>>>>played file: %s\n", filePath);
         }
         cJSON_Delete(json);
         return status;
@@ -258,7 +262,7 @@ public:
     void deleteFiles() {
         if(m_playFile >0) {
             for (const auto &fileName: m_Files) {
-                remove(fileName.c_str());
+              //  remove(fileName.c_str());
             }
         }
     }
