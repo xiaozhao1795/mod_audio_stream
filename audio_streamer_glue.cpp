@@ -212,6 +212,8 @@ public:
                     m_Files.insert(filePath);
                     jsonFile = cJSON_CreateString(filePath);
                     cJSON_AddItemToObject(jsonData, "file", jsonFile);
+                    switch_ivr_play_file(session, nullptr,filePath, nullptr);
+                    switch_log_printf(SWITCH_CHANNEL_SESSION_LOG(session), SWITCH_LOG_DEBUG, "played file: %s\n", filePath);
                 }
 
                 if(jsonFile) {
@@ -221,8 +223,8 @@ public:
                     free(jsonString);
                     status = SWITCH_TRUE;
                 }
-                if (jsonAudio)
-                    cJSON_Delete(jsonAudio);
+                // if (jsonAudio)
+                //     cJSON_Delete(jsonAudio);
 
             } else {
                 switch_log_printf(SWITCH_CHANNEL_SESSION_LOG(session), SWITCH_LOG_ERROR, "(%s) processMessage - no data in streamAudio\n", m_sessionId.c_str());
